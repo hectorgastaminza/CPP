@@ -12,8 +12,9 @@ typedef struct _node_t {
 } node_t;
 
 node_t * ListCreateNode(int val);
-bool ListInsert(node_t** head, int val, int position);
-void ListPrint(node_t* head);
+bool ListInsert(node_t **head, int val, int position);
+void ListTraverse(node_t *head);
+void ListPrint(node_t *head);
 
 node_t * ListCreateNode(int val)
 {
@@ -28,7 +29,7 @@ node_t * ListCreateNode(int val)
   return retval;
 }
 
-bool ListInsert(node_t** head, int val, int position)
+bool ListInsert(node_t **head, int val, int position)
 {
     bool retval = true;
     node_t *tmp_node = ListCreateNode(val);
@@ -82,15 +83,25 @@ bool ListInsert(node_t** head, int val, int position)
     return retval;
 }
 
+void ListTraverse(node_t *head)
+{
+	node_t *current = head;   /* current node set to head */
+	int count=0;              /* to count total no of nodes */
+
+	printf("\ntraversing the list\n");
+	while(current != NULL)
+  {
+		printf("%d ", current->data);
+		++count;
+		current=current->next;	
+	}
+	
+	printf("\ntotal no of nodes : %d\n", count);
+}
+
 void ListPrint(node_t* head)
 {
-    printf("\nList elements:\n");
-    while (head != NULL) 
-    {
-        printf("%d ", head->data);
-        head = head->next;
-    }
-    printf("\n");
+    ListTraverse(head);
 }
 
 void ListExample(void)

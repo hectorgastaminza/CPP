@@ -13,6 +13,8 @@ typedef struct _node_t {
 
 node_t * ListCreateNode(int val);
 bool ListInsert(node_t **head, int val, int position);
+bool ListDelete(node_t **head, int position);
+bool ListDeleteNode(node_t **node);
 node_t * ListNodeGet(node_t *head, int position);
 void ListTraverse(node_t *head);
 
@@ -75,6 +77,52 @@ bool ListInsert(node_t **head, int val, int position)
     return retval;
 }
 
+bool ListDelete(node_t **head, int position)
+{
+  bool retval = true;
+
+  if (position == 1)
+  {
+    ListDeleteNode(head);
+  }
+  else if (position > 1)
+  {
+    node_t *curr = ListNodeGet(*head, (position-1));
+
+    if ((curr != NULL) && (curr->next != NULL))
+    {
+      ListDeleteNode(&(curr->next));
+    }
+    else
+    {
+      printf("\nPosition doesn't exists in the list\n");
+      retval = false;
+    }
+  }
+  else
+  {
+      printf("\nPosition doesn't exists in the list\n");
+      retval = false;
+  }
+
+  return retval;
+}
+
+bool ListDeleteNode(node_t **node)
+{
+  bool retval = false;
+
+  if (*node != NULL)
+  {
+    node_t *nodeDelete = *node;  
+    *node = nodeDelete->next;
+    free(nodeDelete);
+    retval = true;
+  }
+
+  return retval;
+}
+
 node_t * ListNodeGet(node_t *head, int position)
 {
   node_t * retNode = NULL;
@@ -123,36 +171,35 @@ void ListExample(void)
     printf("Enter the no. of nodes to create list: ");
     scanf("%d", &num_nodes);
 
-    for (index = 1; index <= num_nodes; index++) {
+    for (index = 1; index <= num_nodes; index++) 
+    {
         printf("Enter node data for position %d in the list:  ", index);
         scanf("%d", &value);
         ListInsert(&head, value, index);
     }
     ListTraverse(head);
 
-    printf("\nInsert the element at 1st position:  ");
-    scanf("%d", &value);
-    ListInsert(&head, value, 1);
-    // We have inserted one more element, hence num_nodes get increased by 1
-    num_nodes += 1;
-    ListTraverse(head);
+    position = 0;
+    while (position >= 0)
+    {
+      printf("\nInsert the element at any position in the list\n");
+      printf("Enter the position (<0 exit): ");
+      scanf("%d", &position);
+      printf("Enter the element value: ");
+      scanf("%d", &value);
+      ListInsert(&head, value, position);
+      ListTraverse(head);
+    }
 
-    printf("\nInsert the element at last position:  ");
-    scanf("%d", &value);
-    ListInsert(&head, value, num_nodes + 1);
-    // We have inserted one more element, hence num_nodes will get increased by 1
-    num_nodes += 1;
-    ListTraverse(head);
-
-    printf("\nInsert the element at any position in the list\n");
-    printf("Enter the position: ");
-    scanf("%d", &position);
-    printf("Enter the element value: ");
-    scanf("%d", &value);
-    ListInsert(&head, value, position);
-    // We have inserted one more element, hence num_nodes will get increased by 1
-    num_nodes += 1;
-    ListTraverse(head);
+    position = 0;
+    while (position >= 0)
+    {
+      printf("\nDelete the element at any position in the list\n");
+      printf("Enter the position (<0 exit): ");
+      scanf("%d", &position);
+      ListDelete(&head, position);
+      ListTraverse(head);
+    }
 }
 
 int main()

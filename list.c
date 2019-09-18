@@ -60,27 +60,22 @@ bool ListInsert(node_t** head, int val, int position)
             ++count;
         }
 
-        if (position > count) 
-        {
-          printf("\nPosition doesn't exists in the list ");
-          retval = false;
-        }
-        else if ((count == position) && (curr->next == NULL))
-        {
-          /* Inseting node at the end of the list */
-          curr->next = tmp_node;
-        }
-        else
+        if (count == position)
         {
           /* Inserting node in the list at given position */
           tmp_node->next = curr->next;
           curr->next = tmp_node;
         }
+        else
+        {
+          printf("\nPosition doesn't exists in the list\n");
+          retval = false;
+        }
       }
     }
     else
     {
-      printf("Memory allocation is failed:");
+      printf("Memory allocation is failed\n");
       retval = false;
     }
 
